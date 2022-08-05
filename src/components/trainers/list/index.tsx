@@ -6,7 +6,7 @@ import { api } from '@/api';
 
 export function TrainersList({ trainers }: { trainers: Trainer[] }) {
   return (
-    <div className='w-100 grid grid-cols-4'>
+    <div className='w-100 grid gap-3 grid-cols-4'>
       {trainers.map((t) => (
         <TrainerCard key={t.id} trainer={t}></TrainerCard>
       ))}
