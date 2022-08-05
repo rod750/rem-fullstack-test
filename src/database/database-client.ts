@@ -1,4 +1,4 @@
-import { DatabaseAdapter } from '@/database/DatabaseAdapter';
+import { DatabaseAdapter } from '@/database/database-adapter';
 
 export class DatabaseClient {
   constructor(public adapter: DatabaseAdapter) {}
