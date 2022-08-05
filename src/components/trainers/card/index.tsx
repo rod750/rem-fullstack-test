@@ -2,6 +2,7 @@ import { Trainer } from '@/database/models';
 
 import { Button } from '@/components/shared/button';
 import { Card } from '@/components/shared/card';
+import Link from 'next/link';
 
 type TrainerCardProps = React.PropsWithChildren<{
   trainer: Trainer;
@@ -15,7 +16,7 @@ export function TrainerCard({ trainer, ...props }: TrainerCardProps) {
         <div className='grow self-center align-middle text-sm font-bold text-black'>
           {trainer.name}
         </div>
-        <Button>Editar</Button>
+        <Link href={`/trainers/${trainer.id}`}><Button>Editar</Button></Link>
       </div>
     </Card>
   );

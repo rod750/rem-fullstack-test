@@ -12,7 +12,7 @@ export function TeamList({ teams }: { teams: Team[] }) {
         <Button opaque>Añadir Nuevo</Button>
       </div>
       <div className='grid gap-y-3'>
-        {teams.map(t => (<TeamCard team={t}></TeamCard>))}
+        {teams.map((t, index) => (<TeamCard team={t} teamIndex={index}></TeamCard>))}
       </div>
     </div>
   );
