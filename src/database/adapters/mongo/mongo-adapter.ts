@@ -1,7 +1,8 @@
-import { Db, MongoClient } from 'mongodb';
+import { Db, MongoClient, ObjectId, OptionalId } from 'mongodb';
 
 import { DatabaseAdapter } from '@/database/database-adapter';
 import { Trainer } from '@/database/models/trainer';
+import { Item, Pokemon, Team } from '@/database/models';
 
 export class MongoAdapter implements DatabaseAdapter {
   private url: string;
@@ -25,7 +26,14 @@ export class MongoAdapter implements DatabaseAdapter {
     const trainers = await this.db.collection('trainers').find({}).toArray();
 
     if (trainers) {
-      return trainers.map((t) => new Trainer(t));
+      return trainers.map((t) => {
+        const result = new Trainer(t) as Trainer & OptionalId<Document>;
+
+        result.id = t._id.toString();
+        delete result._id;
+
+        return result;
+      });
     }
 
     return [];
@@ -34,11 +42,15 @@ export class MongoAdapter implements DatabaseAdapter {
   async getTrainer(trainerId: string): Promise<Trainer | undefined> {
     const trainer = await this.db
       .collection('trainers')
-      .find({ _id: trainerId })
-      .toArray();
+      .findOne({ _id: new ObjectId(trainerId) });
 
-    if (trainer?.length) {
-      return new Trainer(trainer[0]);
+    if (trainer) {
+      const result = new Trainer(trainer) as Trainer & OptionalId<Document>;
+
+      result.id = trainer._id.toString();
+      delete result._id;
+
+      return result;
     }
 
     return undefined;
@@ -50,11 +62,17 @@ export class MongoAdapter implements DatabaseAdapter {
   ): Promise<Trainer | undefined> {
     const trainer = await this.db
       .collection('trainers')
-      .find({ name, password })
-      .toArray();
+      .findOne({ name, password });
 
-    if (trainer?.length) {
-      return new Trainer(trainer[0]);
+    if (trainer) {
+      const result = new Trainer(trainer) as Trainer & OptionalId<Document>;
+
+      result.id = trainer._id.toString();
+      delete result._id;
+
+      result.teams = trainer.teams.map(this.mapTeams);
+
+      return result;
     }
 
     return undefined;

@@ -1,6 +1,8 @@
 import { Trainer } from '@/database/models';
 
 import { TrainerCard } from '@/components/trainers/card';
+import { useEffect, useState } from 'react';
+import { api } from '@/api';
 
 export function TrainersList({ trainers }: { trainers: Trainer[] }) {
   return (

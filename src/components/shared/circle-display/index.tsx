@@ -1,8 +1,8 @@
 export function CircleDisplay({ imageUrl }: { imageUrl: string }) {
   return (
-    <div className='rounded-full bg-white p-3'>
+    <div className='rounded-full bg-white p-1'>
       <div
-        className='min-h-[30px] min-w-[30px] bg-cover'
+        className='min-h-[50px] min-w-[50px] bg-cover'
         style={{ backgroundImage: `url('${imageUrl}')` }}
       ></div>
     </div>

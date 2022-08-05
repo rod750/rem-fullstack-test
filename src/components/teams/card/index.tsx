@@ -12,12 +12,7 @@ export function TeamCard({ team }: { team: Team }) {
         <Button opaque>Editar</Button>
       </div>
       <div className='flex gap-5'>
-        <CircleDisplay imageUrl=''></CircleDisplay>
-        <CircleDisplay imageUrl=''></CircleDisplay>
-        <CircleDisplay imageUrl=''></CircleDisplay>
-        <CircleDisplay imageUrl=''></CircleDisplay>
-        <CircleDisplay imageUrl=''></CircleDisplay>
-        <CircleDisplay imageUrl=''></CircleDisplay>
+        {team.pokemon.map(p => (<CircleDisplay imageUrl={p.imageUrl}></CircleDisplay>))}
       </div>
     </Card>
   );

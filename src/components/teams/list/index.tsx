@@ -1,7 +1,8 @@
 import { Button } from '@/components/shared/button';
 import { TeamCard } from '@/components/teams/card';
+import { Team } from '@/database/models';
 
-export function TeamList({ trainerId }: { trainerId: string }) {
+export function TeamList({ teams }: { teams: Team[] }) {
   return (
     <div className=''>
       <div className='flex pb-5'>
@@ -11,21 +12,7 @@ export function TeamList({ trainerId }: { trainerId: string }) {
         <Button opaque>Añadir Nuevo</Button>
       </div>
       <div className='grid gap-y-3'>
-        <TeamCard
-          team={{ trainerId: trainerId, pokemon: [], name: 'Fuego' }}
-        ></TeamCard>
-        <TeamCard
-          team={{ trainerId: trainerId, pokemon: [], name: 'Fuego' }}
-        ></TeamCard>
-        <TeamCard
-          team={{ trainerId: trainerId, pokemon: [], name: 'Fuego' }}
-        ></TeamCard>
-        <TeamCard
-          team={{ trainerId: trainerId, pokemon: [], name: 'Fuego' }}
-        ></TeamCard>
-        <TeamCard
-          team={{ trainerId: trainerId, pokemon: [], name: 'Fuego' }}
-        ></TeamCard>
+        {teams.map(t => (<TeamCard team={t}></TeamCard>))}
       </div>
     </div>
   );
