@@ -1,14 +1,14 @@
 import clsx from 'clsx';
 import * as React from 'react';
 
+type ButtonProps = React.PropsWithChildren<{ translucent?: boolean }> &
+  React.DetailedHTMLProps<React.HTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
+
 export function Button({
   children,
-  opaque: translucent = false,
+  translucent = false,
   ...props
-}: {
-  children?: React.ReactNode;
-  opaque?: boolean;
-}) {
+}: ButtonProps) {
   return (
     <a
       {...props}

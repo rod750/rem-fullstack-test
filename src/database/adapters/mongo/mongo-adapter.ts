@@ -70,8 +70,6 @@ export class MongoAdapter implements DatabaseAdapter {
       result.id = trainer._id.toString();
       delete result._id;
 
-      result.teams = trainer.teams.map(this.mapTeams);
-
       return result;
     }
 
@@ -93,7 +91,7 @@ export class MongoAdapter implements DatabaseAdapter {
 
     const result = await this.db
       .collection('trainers')
-      .updateOne({ _id: id }, { $set: trainer });
+      .updateOne({ _id: new ObjectId(id) }, { $set: trainer });
 
     return result ? true : false;
   }

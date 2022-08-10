@@ -4,20 +4,36 @@ import { Picker } from '@/components/shared/picker';
 import { ItemSelect } from '@/components/teams/item-select';
 import { PokemonSelect } from '@/components/teams/pokemon-select';
 
-import { Pokemon } from '@/database/models';
+import { Item, Pokemon } from '@/database/models';
 import { useEffect, useState } from 'react';
 
-export function PokemonSelector({ pokemon }: { pokemon?: Pokemon }) {
-  const [state, setState] = useState<{ pokemon: Pokemon | undefined }>({ pokemon: undefined })
+export function PokemonSelector({
+  pokemon,
+  onChange
+}: {
+  pokemon?: Pokemon,
+  onChange?: Function
+}) {
+  const [state, setState] = useState<{ pokemon: Pokemon | any }>({ pokemon: undefined })
 
   useEffect(() => {
-    if (!state.pokemon) {
-      setState({ ...state, pokemon });
-    }
+    setState({ pokemon });
   }, [pokemon])
 
   const onPokemonChange = (pokemon: Pokemon) => {
+    if (state.pokemon.item) {
+      pokemon.item = state.pokemon.item;
+    }
+
     setState({ ...state, pokemon });
+    onChange && onChange(pokemon);
+  }
+
+  const onItemChange = (item: Item) => {
+    const pokemon = { ...state.pokemon, item: item };
+
+    setState({ ...state, pokemon });
+    onChange && onChange(pokemon);
   }
 
   return (
@@ -25,7 +41,7 @@ export function PokemonSelector({ pokemon }: { pokemon?: Pokemon }) {
       <div className='flex flex-row gap-4'>
         <CircleDisplay imageUrl={state.pokemon?.imageUrl || ""}></CircleDisplay>
         <PokemonSelect onChange={onPokemonChange} defaultValue={state.pokemon?.apiId}></PokemonSelect>
-        <ItemSelect defaultValue={state.pokemon?.item?.apiId}></ItemSelect>
+        <ItemSelect onChange={onItemChange} defaultValue={state.pokemon?.item?.apiId}></ItemSelect>
       </div>
     </Card>
   );

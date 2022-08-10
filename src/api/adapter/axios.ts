@@ -54,22 +54,53 @@ export class AxiosAdapter implements ApiAdapter {
     return response?.data?.data?.map((t: { [key: string]: unknown }) => new Trainer(t)) || [];
   }
 
-  async getTrainer(trainerId: string): Promise<Trainer | undefined> {
+  async getTrainer(trainerId: string): Promise<Trainer> {
     const response = await axios.get(`${this.apiUrl}/trainers/${trainerId}`);
 
     if (!response.data?.data) {
-      return undefined;
+      return new Trainer({});
     }
 
     return new Trainer(response.data.data);
   }
 
-  createTrainer(trainer: Trainer): Promise<boolean> {
-    throw new Error("Method not implemented.");
+  async deleteTrainer(trainerId: string): Promise<boolean> {
+    try {
+      await axios.delete(`${this.apiUrl}/trainers/${trainerId}`);
+
+      return true;
+    }
+    catch (ex) {
+      console.error(ex);
+
+      return false;
+    }
   }
 
-  updateTrainer(trainer: Trainer): Promise<boolean> {
-    throw new Error("Method not implemented.");
+  async createTrainer(trainer: Trainer): Promise<boolean> {
+    try {
+      await axios.post(`${this.apiUrl}/trainers`, trainer);
+
+      return true;
+    }
+    catch (ex) {
+      console.error(ex);
+
+      return false;
+    }
+  }
+
+  async updateTrainer(trainer: Trainer): Promise<boolean> {
+    try {
+      await axios.put(`${this.apiUrl}/trainers/${trainer.id}`, trainer);
+
+      return true;
+    }
+    catch (ex) {
+      console.error(ex);
+
+      return false;
+    }
   }
 
 }
